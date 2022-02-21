@@ -1,8 +1,25 @@
 #include "Complex.h"
 #include <string>
 
-Complex::Complex(double real, double imaginary) : m_real(real), m_imaginary(imaginary) {
-    this->CartesianToPolar();
+unsigned int Complex::sm_instances = 0;
+
+Complex::Complex(double left, double right, bool isPolar) : m_real(left), m_imaginary(right), m_magnitude(left), m_angle(right) {
+    Complex::sm_instances++;
+    
+    if (!isPolar) {
+        this->CartesianToPolar();
+        return;
+    }
+
+    this->PolarToCartesian();
+}
+
+Complex::Complex(const Complex &other) : m_real(other.m_real), m_imaginary(other.m_imaginary), m_magnitude(other.m_magnitude), m_angle(other.m_angle) {
+    Complex::sm_instances++;
+}
+
+Complex::~Complex() {
+    Complex::sm_instances--;
 }
 
 void Complex::SetReal(double real) {
@@ -43,31 +60,31 @@ void Complex::SetPolar(double magnitude, double angle) {
     this->PolarToCartesian();
 }
 
-double Complex::GetReal() {
+double Complex::GetReal() const {
     return this->m_real;
 }
 
-double Complex::GetImaginary() {
+double Complex::GetImaginary() const {
     return this->m_imaginary;
 }
 
-double Complex::GetMagnitude() {
+double Complex::GetMagnitude() const {
     return this->m_magnitude;
 }
 
-double Complex::GetAngle() {
+double Complex::GetAngle() const {
     return this->m_angle;
 }
 
-std::string Complex::ToCartesianString() {
+std::string Complex::ToCartesianString() const {
     return "a = " + std::to_string(this->m_real) + "; b = " + std::to_string(this->m_imaginary);
 }
 
-std::string Complex::ToPolarString() {
+std::string Complex::ToPolarString() const {
     return "r=" + std::to_string(this->m_magnitude) + "; theta=" + std::to_string(this->m_angle);
 }
 
-std::string Complex::ToString() {
+std::string Complex::ToString() const {
     return this->ToCartesianString() + " / " + this->ToPolarString();
 }
 

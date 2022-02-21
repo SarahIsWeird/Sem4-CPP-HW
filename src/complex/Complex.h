@@ -6,7 +6,9 @@
 
 class Complex {
 public:
-    Complex(double real, double imaginary);
+    Complex(double left = 0, double right = 0, bool isPolar = false);
+    Complex(const Complex &other);
+    ~Complex();
 
     void SetReal(double real);
     void SetImaginary(double imaginary);
@@ -16,25 +18,33 @@ public:
     void SetAngle(double angle);
     void SetPolar(double magnitude, double angle);
 
-    double GetReal();
-    double GetImaginary();
+    double GetReal() const;
+    double GetImaginary() const;
 
-    double GetMagnitude();
-    double GetAngle();
+    double GetMagnitude() const;
+    double GetAngle() const;
 
-    std::string ToCartesianString();
-    std::string ToPolarString();
-    std::string ToString();
+    std::string ToCartesianString() const;
+    std::string ToPolarString() const;
+    std::string ToString() const;
+
+    static unsigned int GetInstanceCount() {
+        return Complex::sm_instances;
+    }
 
 private:
     void CartesianToPolar();
     void PolarToCartesian();
 
+    // Kartesisch
     double m_real = 0;
     double m_imaginary = 0;
 
+    // Polar
     double m_magnitude = 0;
     double m_angle = 0;
+
+    static unsigned int sm_instances;
 };
 
 #endif // COMPLEX_H

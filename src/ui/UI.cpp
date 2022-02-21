@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <iostream>
 #include <stdexcept>
 #include <string>
@@ -6,7 +7,7 @@
 #include "UI.h"
 
 void UI::Start() {
-    Complex complex { 0, 0 };
+    Complex complex;
     int option;
 
     while (true) {
